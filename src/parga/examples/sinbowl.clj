@@ -3,7 +3,8 @@
 (ns parga.examples.sinbowl
   (:use [parga.strings])
   (:use [parga.core])
-  (:use [criterium.core]))
+  (:use [criterium.core])
+  (:gen-class :main true))
 
 (defn scale-num 
   [x min max a b]
@@ -40,5 +41,11 @@
     (println (str "Answer: " answer " -> " (sinbowl answer)))))
 
 (defn bench-sinbowl
-  []
-  (bench (test-sinbowl 30 10)))
+  [n]
+  (bench (test-sinbowl n 10)))
+
+(defn -main 
+  [& args]
+  (if (empty? args)
+    (bench-sinbowl 30)
+    (bench-sinbowl (read-string (first args)))))
