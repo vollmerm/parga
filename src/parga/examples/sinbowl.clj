@@ -1,11 +1,13 @@
+;; ## Sinbowl problem
+
 (ns parga.examples.sinbowl
   (:use [parga.strings])
-  (:use [parga.core]))
+  (:use [parga.core])
+  (:use [criterium.core]))
 
 (defn scale-num 
   [x min max a b]
   (+ (/ (* (- b a) (- x min)) (- max min)) a))
-
 
 (defn sinbowl 
   [value]
@@ -16,12 +18,9 @@
   [str]
   (sinbowl (scale-num (binary-to-num str) 0 1048575 -120.0 240.0)))
 
-
 (defn log-sinbowl
   [best]
   (println best))
-;;  (println world))
-;  (println (:best (apply min-key (comp :fitness :best) world))))
 
 (def domain [1 0])
 (def str-size 20)
@@ -38,5 +37,8 @@
                          tournament-size log-sinbowl)
         answer (scale-num (binary-to-num (:string (:best world))) 
                           0 1048575 -120.0 240.0)]
-;    (println world)
     (println (str "Answer: " answer " -> " (sinbowl answer)))))
+
+(defn bench-sinbowl
+  []
+  (bench (test-sinbowl 30 10)))

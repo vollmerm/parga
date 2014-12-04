@@ -1,4 +1,4 @@
-;; ## Helpers for the genetic algorithm
+;; ## Helpers for the genetic algorithm implementation
 
 (ns parga.genetic
   (:use [parga.strings]))

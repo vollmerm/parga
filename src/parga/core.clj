@@ -1,4 +1,4 @@
-;; ## Simple Genetic Algorithm
+;; ## Driver functions
 
 (ns parga.core
   (:use [parga.genetic])
@@ -12,6 +12,11 @@
         (repeatedly #(generate-strings domain str-size pop-size))))
 
 (defn run-island
+  "This loop is for running the genetic algorithm on a single island. It
+  repeats for a certain number of iterations, passing the population of
+  strings through selection and mutation. When it's done, it returns a 
+  map of the whole population and the best individual, in the form of
+  `{:pop pop, :best best}`"
   [iters init-pop init-best func domain mutation-rate tournament-size]
   (loop [n iters, pop init-pop, best init-best]
     (if (zero? n) 
@@ -27,6 +32,10 @@
         (recur (dec n) pop best)))))
         
 (defn run-world
+  "The outer loop: operates on a *world* full of *islands,* and calls 
+  `run-island` on each one repeatedly. Ideally we would be sending random strings
+  from island to island on little boats, but right now they just share the \"best\"
+  string so far."
   [n1 n2 init-world func domain mutation-rate tournament-size logger]
   (letfn [(inner-world [pop best]
             (run-island n2 pop best func domain mutation-rate tournament-size))]
