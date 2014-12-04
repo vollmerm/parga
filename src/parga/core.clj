@@ -1,6 +1,7 @@
 ;; ## Driver functions
 
 (ns parga.core
+  (:use [parga.parallel])
   (:use [parga.genetic])
   (:use [parga.strings]))
 
@@ -42,7 +43,7 @@
     (loop [n n1, world init-world, best nil]
       (if (zero? n) 
         { :world world, :best best }
-        (let [map-world (map #(inner-world % best) world)
+        (let [map-world (limited-pmap #(inner-world % best) world)
               best      (:best (apply min-key (comp :fitness :best) map-world))]
           (logger best)
           (recur (dec n) (map :pop map-world) best))))))

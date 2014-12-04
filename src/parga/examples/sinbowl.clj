@@ -42,7 +42,8 @@
 
 (defn bench-sinbowl
   [n]
-  (bench (test-sinbowl n 10)))
+  (time (test-sinbowl n 100))
+  (time (test-sinbowl n 100)))
 
 (defn -main 
   [& args]
